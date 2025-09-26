@@ -1,0 +1,35 @@
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    url: http://prometheus:9090
+    access: proxy
+    isDefault: true
+    editable: true
+    uid: prometheus
+    jsonData:
+      exemplarTraceIdDestinations:
+        - name: trace_id
+          datasourceUid: tempo
+          urlDisplayLabel: "View trace"
+
+  - name: Loki
+    type: loki
+    url: http://loki:3100
+    access: proxy
+    editable: true
+    uid: loki
+
+  - name: Tempo
+    type: tempo
+    url: http://tempo:3200
+    access: proxy
+    editable: true
+    uid: tempo
+    jsonData:
+      # Trace-to-logs configuration
+      tracesToLogs:
+        datasourceUid: loki
+        filterByTraceID: true
+        filterBySpanID: false
