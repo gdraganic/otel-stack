@@ -28,8 +28,19 @@ datasources:
     editable: true
     uid: tempo
     jsonData:
-      # Trace-to-logs configuration
       tracesToLogs:
         datasourceUid: loki
         filterByTraceID: true
         filterBySpanID: false
+      tracesToProfiles:
+        datasourceUid: pyroscope
+        profileTypeId: "process_cpu:cpu:nanoseconds:cpu:nanoseconds"
+        customQuery: true
+        query: '{service_name="runner-fc"}'
+
+  - name: Pyroscope
+    type: grafana-pyroscope-datasource
+    url: http://pyroscope:4040
+    access: proxy
+    editable: true
+    uid: pyroscope
